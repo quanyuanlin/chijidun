@@ -1,0 +1,11 @@
+/test.sh
+DerivedData
+.idea
+xcuserdata
+build
+/Pods
+*.xcodeproj
+*.xcworkspace
+*.lock
+/Pods/*.xconfig
+.svn

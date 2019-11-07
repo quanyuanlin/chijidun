@@ -1,0 +1,111 @@
+#!/bin/sh
+set -e
+. ./deploy.config
+ROOT_PATH="$(cd `dirname $0`;pwd)"
+#命令检测
+for i in ruby php; do
+    if ! which $i>/dev/null ; then
+        echo "找不到\"$i\"命令!"
+    fi
+done
+LOG_STEP=0;
+function _build_log(){
+    LOG_STEP=`expr $LOG_STEP + 1`
+    LOG="\033[31m${LOG_STEP})、${1}\033[0m"
+    if [[ `uname` = "Darwin" ]]; then
+        echo $LOG
+    else    
+        echo -e $LOG
+    fi
+}
+HELP_CONTENT=""
+function _add_help(){
+    HELP_CONTENT=${HELP_CONTENT}"\t$1\t\t$2\n"
+}
+function _require(){
+    if ! which $1>/dev/null ; then
+        echo "找不到\033[31m$1\033[0m命令!"
+        echo "详见:$2"
+    fi
+}
+function _create_xcodeproj(){
+    _build_log "生成xcodeproj"
+    cd ./scripts/
+    ruby ./project.rb
+    cd ..
+    if [[ -f ./Podfile ]]; then
+        _build_log "集成pod"
+        pod install --no-repo-update
+    fi
+}
+#####################################################################
+if [[ ! -z "$sdk_download_url" ]]; then
+    ARG="api"
+    _add_help $ARG "集成apisdk"
+    if [[ $1 = $ARG ]]; then
+        _build_log "远程获取api sdk"
+        [[ -f ./ios.zip ]]&&rm -rf ./ios.zip
+        wget -q $sdk_download_url
+        [[ -d ./source/vendor/apiSDK ]]&&rm -rf ./source/vendor/apiSDK
+        unzip -q ./ios.zip -d ./source/vendor
+        mv ./source/vendor/ios ./source/vendor/apiSDK
+        [[ -f ./ios.zip ]]&&rm -rf ./ios.zip
+        _build_log "生成ApiSDK"
+        _create_xcodeproj
+        exit
+    fi
+fi
+#####################################################################
+ARG="release"
+_add_help $ARG "生成正式版本,连接设备则安装运行"
+if [[ $1 = $ARG ]]; then
+    _build_log "编译[$1]"
+    xcodebuild build >/dev/null
+    _build_log "ipa打包[$1]"
+    xcrun -sdk iphoneos packageapplication \
+            -v $ROOT_PATH/build/Release-iphoneos \
+            -o $ROOT_PATH/build/app-release.ipa >/dev/null
+    exit
+fi
+#####################################################################
+ARG="ule"
+_add_help $ARG "转换工程源文件为unix换行(Unix Line endings)"
+if [[ $1 = $ARG ]]; then
+    for i in $(find -E . -regex ".*\.(php|m|h|xml)"); do
+        if [[ -f $i ]]; then
+            cat $i|perl -p -e 's/\r\n/\n/g'|tr "\r" "\n" >${i}_
+            mv -f ${i}_ $i
+        fi
+    done
+    exit  
+fi
+#####################################################################
+ARG="proj"
+_add_help $ARG "生成xcode工程文件夹"
+if [[ $1 = $ARG ]]; then
+    _create_xcodeproj
+    exit  
+fi
+#####################################################################
+ARG="assets"
+_add_help $ARG "生成assets定义文件"
+if [[ $1 = $ARG ]]; then
+    out_file=./source/AssetCatalog.h
+    echo "//不要手动修改\n//图片声明文件,避免直接调用文件名">$out_file
+    echo "#pragma mark Images.xcassets">>$out_file
+    for i in $(find ./source/AssetCatalog/Images.xcassets -name "*.imageset" |sort); do
+        file=$(basename $i)
+        echo "/*"$i"*/"\
+             "\nstatic NSString *const IMG_"${file//.imageset/}"=@\""${file//.imageset/}"\";\n" >>$out_file
+    done
+    echo "#pragma mark Images">>$out_file
+    for i in $(find ./source/AssetCatalog/Images -name "*.png" ! -name "*@*.png"|sort); do
+        file=$(basename $i)
+        echo "/*"$i"*/"\
+             "\nstatic NSString *const IMG_"${file//.png/}"=@\""$file"\";\n" >>$out_file
+    done    
+    exit
+fi
+#####################################################################
+echo "选项:"
+echo $HELP_CONTENT|sort|sed '/^$/d'

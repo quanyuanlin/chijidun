@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="TeamOrderCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="320" height="49"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="红烧排骨套餐" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cV-aN-JHV">
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="×2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aH9-mT-YHp">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="E7T-Si-U8m"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥30" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POD-fW-IAp">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="0Gj-Db-JhX"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="0.3294117647" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="aH9-mT-YHp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="0DC-Yc-vcP"/>
+                    <constraint firstItem="POD-fW-IAp" firstAttribute="leading" secondItem="aH9-mT-YHp" secondAttribute="trailing" constant="20" id="2yE-JX-GO2"/>
+                    <constraint firstItem="POD-fW-IAp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="EXK-iU-vWo"/>
+                    <constraint firstItem="4cV-aN-JHV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="GJP-fL-dTq"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="POD-fW-IAp" secondAttribute="trailing" constant="7" id="K2o-ke-qwA"/>
+                    <constraint firstItem="aH9-mT-YHp" firstAttribute="leading" secondItem="4cV-aN-JHV" secondAttribute="trailing" constant="10" id="M3I-qQ-rAa"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="POD-fW-IAp" secondAttribute="bottom" constant="6" id="W7f-Uf-2iN"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="aH9-mT-YHp" secondAttribute="bottom" constant="6" id="qen-DZ-DZS"/>
+                    <constraint firstItem="4cV-aN-JHV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="37" id="z3O-AZ-xS3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="labName" destination="4cV-aN-JHV" id="Azr-eH-0L9"/>
+                <outlet property="labNameRight" destination="z3O-AZ-xS3" id="uyz-Zj-ltt"/>
+                <outlet property="labNum" destination="aH9-mT-YHp" id="gEw-bg-XyF"/>
+                <outlet property="labPrice" destination="POD-fW-IAp" id="VmG-2a-Opr"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,29 @@
+name: chijidun
+source: ../source/
+dependencies:
+  framework:
+      - AVFoundation
+      - Accounts
+      - AddressBook
+      - CoreGraphics
+      - CoreTelephony
+      - ImageIO
+      - QuartzCore
+      - Security
+      - Social
+      - MessageUI
+      - SystemConfiguration
+  dylib:
+      - z
+      - sqlite3
+      - xml2
+      - icucore
+      - z.1.2.5
+      - stdc++
+
+buildConfiguration:
+      INFOPLIST_FILE: $(SRCROOT)/source/Info.plist
+      GCC_PREFIX_HEADER: $(SRCROOT)/source/PrefixHeader.pch
+      HEADER_SEARCH_PATHS:
+          - $(inherited)
+          - $(SRCROOT)/source/vendor
